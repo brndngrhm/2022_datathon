@@ -8,6 +8,8 @@ output: pdf_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(kableExtra)
 ```
 
 ## ElderNet's Impact in the Community
@@ -139,16 +141,18 @@ Both the rolling mean period and threshold can be adjusted to either widen or na
 
 The table below shows how a single client can fall into or out of Active Client status depending on the rolling mean period and threshold used. the `lookback_mean_` columns contain 2 and 3 month rolling means of services used, respectively. The remaining `acitve_client` columns compare the rolling means to various thresholds
 
+```{r, echo=FALSE, message=FALSE}
+definition_table <- read_csv("kathrine_m/active_client_def_table.csv")
+kbl(definition_table, booktabs = T) %>% 
+  column_spec(1, width = "2.25in") %>% 
+  column_spec(2, width = "1in") %>%
+  column_spec(3, width = "0.75in") %>%
+  column_spec(4, width = "2.5in")
+```
 
-column | rolling mean used | threshold value used | interpretation |
------- | ----------------- | -------------- | -------------- |
-active_client_2_mo | lookback_mean_2m0 | 1 | if rolling mean > threshold, used at least 1 svc offered (pantry, volunteer, care mgmt) in 2 of the 2 previous months | 
-active_client_3_mo | lookback_mean_3mo | 1 | if rolling mean > threshold, used at least 1 svc offered (pantry, volunteer, care mgmt) in 3 of the 3 previous months | 
-active_client_2_mo_relaxed |  lookback_mean_2mo | 0.5 | if rolling mean > threshold, used at least 1 svc offered (pantry, volunteer, care mgmt) in 1 of the 2 previous months | 
-active_client_3_mo_relaxed | lookback_mean_3mo | 0.67 | if rolling mean > threshold, used at least 1 svc offered (pantry, volunteer, care mgmt) in 2 of the 3 previous months | 
-active_client_3_mo_extra_relaxed | lookback_mean_3mo | 0.33 | if rolling mean > threshold, used at least 1 svc offered (pantry, volunteer, care mgmt) in 1 of the 3 previous months | 
+\
+\
+An example (client number 641):
 
 ![](brendan_g/active_client_table.png)
-
-
 
